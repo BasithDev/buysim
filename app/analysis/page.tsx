@@ -94,6 +94,7 @@ function AnalysisPageInner() {
       }
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
+      console.error('Analysis Error in page.tsx:', err);
       if (err instanceof Error) setError(err.message || 'Analysis failed');
       else setError('Analysis failed');
     } finally {
@@ -150,6 +151,7 @@ function AnalysisPageInner() {
       }
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
+      console.error('Simulation Error in page.tsx:', err);
       if (err instanceof Error) setSimError(err.message || 'Simulation failed');
       else setSimError('Simulation failed');
     } finally {
