@@ -1,25 +1,29 @@
-import Link from 'next/link';
-import { Eye } from 'lucide-react';
+import { ShieldAlert } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col md:flex-row justify-between items-center gap-6 px-8 py-10 bg-white border-t border-outline/20 text-xs text-on-surface-variant font-medium">
-      <div className="flex items-center gap-2 font-display text-lg font-bold text-on-surface">
-        <span className="text-primary-container">
-          <Eye size={20} strokeWidth={2.5} />
-        </span>
-        BuySim
-      </div>
-      
-      <div className="flex flex-wrap justify-center gap-6">
-        <Link href="/docs" className="hover:text-on-surface transition-colors">Documentation</Link>
-        <Link href="/privacy" className="hover:text-on-surface transition-colors">Privacy Policy</Link>
-        <Link href="/terms" className="hover:text-on-surface transition-colors">Terms of Service</Link>
-        <Link href="/status" className="hover:text-on-surface transition-colors">API Status</Link>
-      </div>
-      
-      <div>
-        © 2024 BuySim AI. Precision procurement simulation.
+    <footer className="border-t border-outline-variant/20 bg-white/60 backdrop-blur-md mt-auto">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12 py-6">
+        <div className="flex items-start gap-3 text-sm">
+          <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-low shrink-0 mt-0.5">
+            <ShieldAlert size={14} className="text-on-surface-variant/60" />
+          </div>
+          <div className="text-on-surface-variant/70 leading-relaxed space-y-1">
+            <p>
+              <span className="font-semibold text-on-surface-variant">Demo only.</span>{' '}
+              This product is for demonstration purposes. Analysis results are generated using 3rd-party AI services (Google Gemini) and may not reflect accurate market data.
+            </p>
+            <p>
+              As this is a shared demo environment, you may encounter{' '}
+              <span className="font-semibold text-on-surface-variant">rate limiting errors</span>.{' '}
+              Please be mindful of usage limits and expect occasional delays or failures during peak times.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-outline-variant/15 text-xs text-on-surface-variant/40 flex justify-between items-center">
+          <span>© {new Date().getFullYear()} BuySim — Built for demo purposes</span>
+          <span>AI analysis powered by Google Gemini</span>
+        </div>
       </div>
     </footer>
   );
