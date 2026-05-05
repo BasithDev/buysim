@@ -77,6 +77,7 @@ function AnalysisPageInner() {
         throw new Error(bodyText || `HTTP ${res.status}`);
       }
 
+      let completed = false;
       for await (const event of readSseEvents(res)) {
         if (controller.signal.aborted) break;
         const typed = event as Record<string, unknown>;
@@ -84,6 +85,7 @@ function AnalysisPageInner() {
           setCurrentStep(typed.step as number);
           setProgressSteps((prev) => [...prev, typed as unknown as ProgressStep]);
         } else if (typed.type === 'complete') {
+          completed = true;
           const data = typed.data as AnalysisResult;
           setResult(data);
           try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
@@ -91,6 +93,14 @@ function AnalysisPageInner() {
           setError(typed.message as string);
           break;
         }
+      }
+      // Stream closed without 'complete' or 'error' — likely server timeout
+      if (!completed && !error && !controller.signal.aborted) {
+        setError(
+          progressSteps.length > 0
+            ? 'Analysis timed out — the server took too long. Try again.'
+            : 'Failed to connect to the analysis server. Try again.'
+        );
       }
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
@@ -257,9 +267,9 @@ function AnalysisPageInner() {
               className="flex flex-col items-center justify-center py-24 text-center"
             >
               <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-primary-container/15 to-secondary/10 flex items-center justify-center mb-5">
-                <span className="text-3xl font-display font-extrabold bg-linear-to-r from-primary-container to-secondary bg-clip-text text-transparent">
-                  00
-                </span>
+                <svg className="w-10 h-10 text-primary-container" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
               </div>
               <h2 className="font-display text-2xl font-bold text-on-surface mb-2">
                 Ready to analyze your product
