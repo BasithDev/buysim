@@ -20,6 +20,7 @@ function getErrorInfo(message: string) {
   }
 
   if (lower.includes('network') || lower.includes('fetch') || lower.includes('failed to fetch') || lower.includes('aborted')) {
+    console.log(message)
     return {
       title: 'Connection error',
       description: 'We couldn\'t reach the analysis server. Check your internet connection and try again.',
