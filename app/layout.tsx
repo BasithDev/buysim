@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Manrope, Space_Grotesk } from "next/font/google";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
 const displayFont = Plus_Jakarta_Sans({
@@ -20,6 +22,9 @@ const dataFont = Space_Grotesk({
 export const metadata: Metadata = {
   title: "BuySim | See your listing through your buyer's eyes",
   description: "AI-powered buying simulation for Amazon sellers.",
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({
@@ -32,7 +37,11 @@ export default function RootLayout({
       lang="en"
       className={`${displayFont.variable} ${bodyFont.variable} ${dataFont.variable}`}
     >
-      <body>{children}</body>
+      <body className="flex flex-col min-h-screen">
+        <Navbar />
+        <div className="flex-1">{children}</div>
+        <Footer />
+      </body>
     </html>
   );
 }
