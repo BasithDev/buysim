@@ -24,10 +24,32 @@ function buildSearchQuery(product: ProductData): string {
   return firstPhrase || query.substring(0, 80);
 }
 
+function isValidAmazonUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
+    if (!parsed.hostname.match(/^www\.amazon\.[a-z.]+$/)) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(req: Request) {
-  const { url } = await req.json();
-  if (!url) {
+  let body: { url?: string };
+  try {
+    body = await req.json();
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON body' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+  }
+
+  const { url } = body;
+  if (!url?.trim()) {
     return new Response(JSON.stringify({ error: 'No URL provided' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+  }
+
+  if (!isValidAmazonUrl(url)) {
+    return new Response(JSON.stringify({ error: 'Must be a valid Amazon product URL (e.g. https://www.amazon.com/dp/...) — ' + url }), { status: 400, headers: { 'Content-Type': 'application/json' } });
   }
 
   const encoder = new TextEncoder();
@@ -59,15 +81,12 @@ export async function POST(req: Request) {
         // Try 1: Search Amazon with a concise query
         const searchQuery = buildSearchQuery(mainProduct);
         const searchUrl = buildSearchUrl(searchQuery, url);
-        console.log(`[Search] Query: "${searchQuery}"`);
-        console.log(`[Search] URL: ${searchUrl}`);
 
         try {
           const searchMarkdown = await scrapeMainContent(searchUrl);
 
           // Check if Amazon returned an error page
           if (searchMarkdown.includes('rush hour') || searchMarkdown.includes('503') || searchMarkdown.length < 500) {
-            console.log('[Search] Amazon returned error page, falling back to product page competitors');
             throw new Error('Amazon blocked search');
           }
 
@@ -120,7 +139,7 @@ export async function POST(req: Request) {
             validAsins.push(asin);
 
             send({ type: 'progress', step: 4, total: 6, message: `✓ ${compData.brand}: ${compData.title?.substring(0, 40)}...`, done: competitors.length >= MAX_VALID, subStep: competitors.length, subTotal: MAX_VALID });
-          } catch (err: any) {
+          } catch {
             send({ type: 'progress', step: 4, total: 6, message: `Skipped one product, trying next...`, error: true, subStep: competitors.length + 1, subTotal: MAX_VALID });
           }
         }
@@ -140,8 +159,9 @@ export async function POST(req: Request) {
           meta: { totalScrapes: 2 + competitors.length, competitorAsins: validAsins, timeTakenMs },
         } as AnalysisResult });
 
-      } catch (err: any) {
-        send({ type: 'error', message: err.message || 'Something went wrong' });
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Something went wrong';
+        send({ type: 'error', message });
       }
 
       controller.close();

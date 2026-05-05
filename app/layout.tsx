@@ -22,6 +22,9 @@ const dataFont = Space_Grotesk({
 export const metadata: Metadata = {
   title: "BuySim | See your listing through your buyer's eyes",
   description: "AI-powered buying simulation for Amazon sellers.",
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({

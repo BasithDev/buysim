@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Loader2, ArrowRight } from 'lucide-react';
 
@@ -11,12 +11,8 @@ interface AnalysisInputProps {
 }
 
 export default function AnalysisInput({ onSubmit, isLoading, initialUrl }: AnalysisInputProps) {
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(initialUrl || '');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (initialUrl) setUrl(initialUrl);
-  }, [initialUrl]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +38,7 @@ export default function AnalysisInput({ onSubmit, isLoading, initialUrl }: Analy
           <Search size={18} />
         </div>
         <input
-          type="url"
+          type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Paste your Amazon product URL..."

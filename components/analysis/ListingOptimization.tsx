@@ -8,7 +8,6 @@ import { ComparisonResult } from '@/lib/gemini';
 interface ListingOptimizationProps {
   comparison: ComparisonResult;
   originalTitle: string;
-  originalFeatures: string[];
 }
 
 function CopyAllButton({ text }: { text: string }) {
@@ -60,7 +59,7 @@ function SectionCard({ icon, title, children, defaultOpen = true }: {
   );
 }
 
-export default function ListingOptimization({ comparison, originalTitle, originalFeatures }: ListingOptimizationProps) {
+export default function ListingOptimization({ comparison, originalTitle }: ListingOptimizationProps) {
   const { titleSuggestion, featureBulletSuggestions, keywordGaps, reviewGaps } = comparison;
 
   return (
@@ -81,11 +80,11 @@ export default function ListingOptimization({ comparison, originalTitle, origina
             </div>
             <div>
               <p className="text-xs font-semibold text-on-surface-variant/60 uppercase tracking-wider mb-1.5">Suggested Title</p>
-              <div className="bg-[#22c55e]/5 border border-[#22c55e]/20 rounded-lg px-3 py-2.5 flex items-start gap-2 group">
+              <div className="bg-[#22c55e]/5 border border-[#22c55e]/20 rounded-lg px-3 py-2.5 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 group">
                 <p className="text-sm text-on-surface leading-relaxed flex-1">{titleSuggestion}</p>
                 <button
                   onClick={() => { navigator.clipboard.writeText(titleSuggestion); }}
-                  className="shrink-0 text-xs font-semibold text-on-surface-variant/40 hover:text-on-surface transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-surface-container-low"
+                  className="self-end sm:self-auto shrink-0 text-xs font-semibold text-on-surface-variant/40 hover:text-on-surface transition-colors flex items-center gap-1 px-2 py-1 rounded-md hover:bg-surface-container-low"
                 >
                   <Copy size={12} /> Copy
                 </button>
@@ -135,7 +134,7 @@ export default function ListingOptimization({ comparison, originalTitle, origina
             <p className="text-sm text-on-surface-variant leading-relaxed">{reviewGaps.explanation}</p>
             <div className="space-y-2">
               {reviewGaps.competitorPainPoints.map((point, i) => (
-                <div key={i} className="flex gap-2.5 items-start bg-error/[0.04] border border-error/10 rounded-lg px-3 py-2">
+                <div key={i} className="flex gap-2.5 items-start bg-error/4 border border-error/10 rounded-lg px-3 py-2">
                   <span className="text-error text-xs font-bold mt-0.5 shrink-0">⚡</span>
                   <p className="text-sm text-on-surface">{point}</p>
                 </div>

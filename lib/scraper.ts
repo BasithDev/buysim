@@ -33,22 +33,3 @@ export function buildSearchUrl(query: string, originalUrl: string): string {
 export function buildProductUrl(asin: string, originalUrl: string): string {
   return `${getAmazonDomain(originalUrl)}/dp/${asin}`;
 }
-
-/** Extract ASINs from a search results page markdown. */
-export function extractSearchASINs(markdown: string, excludeAsin: string, max: number = 3): string[] {
-  const asinRegex = /\/dp\/([A-Z0-9]{10})(?:\/|\b)/g;
-  const asins: string[] = [];
-  const seen = new Set<string>();
-  let match;
-
-  while ((match = asinRegex.exec(markdown)) !== null) {
-    const asin = match[1];
-    if (asin !== excludeAsin && !seen.has(asin)) {
-      seen.add(asin);
-      asins.push(asin);
-      if (asins.length >= max) break;
-    }
-  }
-
-  return asins;
-}

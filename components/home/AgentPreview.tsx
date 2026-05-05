@@ -53,7 +53,7 @@ export default function AgentPreview() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.3 }}
         className="font-display text-3xl md:text-4xl font-bold mb-4 text-on-surface"
       >
         Meet your 5 AI buyers
@@ -63,7 +63,7 @@ export default function AgentPreview() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        transition={{ duration: 0.3, delay: 0.05 }}
         className="text-on-surface-variant text-base mb-14 max-w-2xl mx-auto"
       >
         A diverse panel representing real-world buyer behavior.
@@ -77,9 +77,9 @@ export default function AgentPreview() {
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{
-              duration: 0.4,
-              delay: index * 0.1,
-              scale: { type: 'spring', stiffness: 300, damping: 20 },
+              duration: 0.25,
+              delay: index * 0.06,
+              scale: { type: 'spring', stiffness: 400, damping: 17 },
             }}
             className="bg-white border border-outline-variant/30 rounded-xl p-5 text-left flex flex-col gap-3 w-full hover:-translate-y-1 hover:shadow-md transition-all duration-200"
           >

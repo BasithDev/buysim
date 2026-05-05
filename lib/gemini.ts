@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const model = genAI.getGenerativeModel({
-  model: 'gemini-3.1-flash-lite-preview',
+  model: process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite-preview',
   generationConfig: { responseMimeType: 'application/json' },
 });
 
@@ -127,7 +127,7 @@ ${markdown.substring(0, 40000)}`;
   try {
     return JSON.parse(text) as ProductData;
   } catch {
-    console.error('Gemini parse error:', text.substring(0, 300));
+    console.error('Gemini returned invalid JSON');
     throw new Error('Gemini returned invalid JSON');
   }
 }
@@ -166,10 +166,9 @@ ${searchMarkdown.substring(0, 25000)}`;
   const text = result.response.text();
   try {
     const parsed = JSON.parse(text);
-    console.log('[Competitor Selection]', parsed.reasoning);
     return (parsed.asins || []).filter((a: string) => a !== mainProduct.asin).slice(0, 5);
   } catch {
-    console.error('Competitor selection parse error:', text.substring(0, 300));
+    console.error('Competitor selection returned invalid JSON');
     return [];
   }
 }
@@ -239,7 +238,7 @@ confidence is 0-100, how strongly they feel
   try {
     return JSON.parse(text) as SimulationResult;
   } catch {
-    console.error('Simulation parse error:', text.substring(0, 500));
+    console.error('Simulation returned invalid JSON');
     throw new Error('Gemini simulation returned invalid JSON');
   }
 }
@@ -294,7 +293,7 @@ Return JSON matching:
   try {
     return JSON.parse(text) as ComparisonResult;
   } catch {
-    console.error('Comparison parse error:', text.substring(0, 300));
+    console.error('Comparison returned invalid JSON');
     throw new Error('Gemini comparison returned invalid JSON');
   }
 }

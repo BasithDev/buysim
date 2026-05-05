@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Copy, Download, Check } from 'lucide-react';
-import { type AnalysisResult } from '@/app/api/test-scrape/route';
+import { type AnalysisResult } from '@/lib/types';
 
 interface ExportReportProps {
   result: AnalysisResult;
@@ -57,7 +57,7 @@ export default function ExportReport({ result }: ExportReportProps) {
 
     if (comparison.reviewGaps?.competitorPainPoints?.length) {
       lines.push('Customer Pain Points:');
-      comparison.reviewGaps.competitorPainPoints.forEach((p, i) => lines.push(`  • ${p}`));
+      comparison.reviewGaps.competitorPainPoints.forEach((p) => lines.push(`  • ${p}`));
       lines.push('');
     }
 

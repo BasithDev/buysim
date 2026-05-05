@@ -37,7 +37,7 @@ export default function HowItWorks() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.3 }}
         className="font-display text-3xl md:text-4xl font-bold mb-14 text-on-surface"
       >
         How it works
@@ -50,7 +50,7 @@ export default function HowItWorks() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: index * 0.15 }}
+            transition={{ duration: 0.3, delay: index * 0.08 }}
             className="border border-outline-variant/30 rounded-xl p-6 text-left bg-white hover:border-outline-variant/50 hover:shadow-md transition-all duration-200"
           >
             <div className={`inline-flex justify-center items-center w-9 h-9 ${step.numberBg} ${step.numberColor} font-data font-bold rounded-lg mb-6`}>

@@ -71,9 +71,14 @@ function QualityBar({ label, score }: { label: string; score: number }) {
   };
 
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-sm font-semibold text-on-surface w-44 shrink-0">{label}</span>
-      <div className="flex-1 h-2.5 bg-surface-container-low rounded-full overflow-hidden">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+      <div className="flex justify-between items-center sm:block sm:w-44 shrink-0">
+        <span className="text-sm font-semibold text-on-surface">{label}</span>
+        <span className="text-sm font-data font-bold text-on-surface sm:hidden">
+          {score}/100
+        </span>
+      </div>
+      <div className="flex-1 h-2.5 bg-surface-container-low rounded-full overflow-hidden w-full">
         <motion.div
           className={`h-full rounded-full ${getColor(score)}`}
           initial={{ width: 0 }}
@@ -81,7 +86,7 @@ function QualityBar({ label, score }: { label: string; score: number }) {
           transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
         />
       </div>
-      <span className="text-sm font-data font-bold text-on-surface w-12 text-right">
+      <span className="hidden sm:block text-sm font-data font-bold text-on-surface w-12 text-right">
         {score}/100
       </span>
     </div>

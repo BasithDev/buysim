@@ -2,15 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Loader2 } from 'lucide-react';
-
-interface ProgressStep {
-  step: number;
-  total: number;
-  message: string;
-  done?: boolean;
-  error?: boolean;
-  durationMs?: number;
-}
+import { type ProgressStep } from '@/lib/types';
 
 const STEPS = [
   { icon: '01', label: 'Fetching product details', desc: 'Scraping title, price, images and specs' },
