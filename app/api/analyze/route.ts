@@ -1,6 +1,8 @@
 import { scrapeFullPage, scrapeMainContent, buildSearchUrl, buildProductUrl } from '@/lib/scraper';
 import { parseProductFromMarkdown, selectBestCompetitors, generateComparison, type ProductData, type ComparisonResult } from '@/lib/gemini';
 
+export const maxDuration = 60; // Set Vercel timeout to max (60 seconds)
+
 export interface AnalysisResult {
   mainProduct: ProductData;
   competitors: ProductData[];

@@ -1,5 +1,7 @@
 import { simulateBuying, type ProductData, type ComparisonResult } from '@/lib/gemini';
 
+export const maxDuration = 60; // Set Vercel timeout to max (60 seconds)
+
 const BUYER_NAMES = ['Kevin', 'Sarah', 'Marcus', 'Priya', 'Alex', 'Elena', 'David', 'Aisha', 'Tom', 'Mia', 'James', 'Lena'];
 
 function getRandomNames() {
